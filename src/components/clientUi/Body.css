@@ -1,0 +1,36 @@
+.bodyContainer{
+    position: absolute;
+    width: 100%;
+}
+.shopCard {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border: 1px solid #e0e0e0;
+    margin: 10px;
+    padding: 5px;
+    border-radius: 5px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    cursor: pointer;
+}
+.shopScrollBox{
+    overflow: scroll;
+    height: calc(100vh - 50px);
+}
+.shopDetail{
+border-left: 2px solid #e0e0e0;
+}
+.shopImg{
+    margin: 10px;
+}
+.shopDetail>h3,h6 {
+    padding-left: 10px;
+}
+
+.shopDetail>h3 {
+    color: #757575;
+}
+
+.shopDetail>h6 {
+    color: #9e9e9e;
+}

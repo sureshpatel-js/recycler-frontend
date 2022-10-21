@@ -1,0 +1,18 @@
+.contactedInfoContainer {
+    overflow-y: scroll;
+    height: 200px;
+    border: 1px solid gray;
+    padding: 2px;
+}
+
+.info {
+    border-bottom: 1px solid gray;
+}
+
+.contactFormContainer {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    border: 4px solid gray;
+    padding: 2px;
+}

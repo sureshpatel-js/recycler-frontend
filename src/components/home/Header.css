@@ -1,0 +1,51 @@
+.authHeader {
+    display: flex;
+    flex-direction: row;
+    height: 40px;
+    align-items: center;
+    background-color: #00e676;
+    position: relative;
+    justify-content: space-between;
+}
+
+.headerElementContainer {
+    z-index: 1;
+    position: absolute;
+    background-color: #eeeeee;
+    display: flex;
+    flex-direction: column;
+    height: 80%;
+    width: 30%;
+    min-width: 200px;
+}
+
+a {
+    text-decoration: none;
+    border: 1px solid gray;
+    margin: 5px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: black;
+}
+
+a:hover {
+    background-color: white;
+}
+
+.shopIcon {
+    font-size: 24px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.authHeaderLeft {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.authHeaderRight {
+    margin-right: 20px;
+}

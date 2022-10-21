@@ -1,0 +1,78 @@
+.userProductContainer {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.userProductContainerHeader {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-top: 20px;
+}
+
+.btn-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+}
+
+.popUp {
+    position: absolute;
+    align-self: center;
+    top: 100px;
+}
+
+.userProductScrollBox {
+    flex: 1;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    overflow-y: scroll;
+}
+
+.userProduct {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid #e0e0e0;
+    margin: 10px;
+    padding: 5px;
+    border-radius: 5px;
+
+}
+
+.userProductDetailContainer {
+    display: flex;
+    align-items: flex-end;
+}
+
+.userProductDetailContainer>h3,
+h5 {
+    padding-left: 10px;
+}
+
+.userProductDetailContainer>h3 {
+    color: #757575;
+}
+
+.userProductDetailContainer>h5 {
+    color: #9e9e9e;
+}
+
+.btnContainer{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+}

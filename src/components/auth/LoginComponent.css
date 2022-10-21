@@ -1,0 +1,42 @@
+.loginComponentHeader {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 50px;
+    background-color: #00e676;
+}
+
+.loginComponentHeader>h1 {
+    margin-left: 20px;
+}
+
+.loginComponent {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+
+
+}
+
+.loginComponentWrap {
+    width: 100%;
+    flex: 1;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.loginPageBanner {
+    flex: 1;
+    height: 160px;
+    min-width: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.loginPageBanner>h1 {
+    color: #00e676;
+}

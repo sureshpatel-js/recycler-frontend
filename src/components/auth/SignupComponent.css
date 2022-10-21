@@ -1,0 +1,44 @@
+.signupComponentHeader {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 50px;
+    background-color: #00e676;
+}
+
+.signupComponentHeader>h1 {
+    margin-left: 20px;
+}
+
+.signupComponent {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+
+
+}
+
+.signupComponentWrap {
+    width: 100%;
+    flex: 1;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    overflow-y: auto;
+}
+
+.signupPageBanner {
+    flex: 1;
+    height: 160px;
+    min-width: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.signupPageBanner>h1,h2 {
+    color: #00e676;
+}

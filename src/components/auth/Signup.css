@@ -1,0 +1,31 @@
+.signupContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 500px;
+    padding: 20px;
+    border: 1px solid gray;
+    border-radius: 10px;
+    background-color: white;
+    margin: 10px;
+}
+
+.btn-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.errorContainer {
+    color: red;
+}
+
+.signUpSuccessContainer {
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    padding: 10px;
+    color: #64dd17;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+   align-items: center;
+}
