@@ -8,12 +8,16 @@ import axios from "axios";
 import { base_url } from "../../appConstants";
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
+import { useDispatch } from "react-redux";
+import { saveAppData } from "../../redux/appData/appDataActions";
+import Loader from "../commonComponent/Loader/Loader"
 const ClientUi = (props) => {
     const [toggle, setToggle] = useState(false);
+    const [loader, setLoader] = useState(false);
     const [shopsArray, setShopsArray] = useState([]);
     const [pincode, setPincode] = useState(null);
     const [currentShopId, setCurrentShopId] = useState(null);
-
+    const dispatch = useDispatch()
     const toggleProductsContainer = (id) => {
         setCurrentShopId(id)
         setToggle(e => !e);
@@ -21,6 +25,7 @@ const ClientUi = (props) => {
 
     useEffect(() => {
         const token = localStorage.getItem("token");
+        setLoader(true);
         axios.post(`${base_url}shop/getFilteredShops`, {
             address_line_four: pincode
         }, {
@@ -30,11 +35,13 @@ const ClientUi = (props) => {
         }).then(function (response) {
             const { shops } = response.data.data;
             setShopsArray(shops);
+            setLoader(false);
             if (shops.length === 0) {
                 NotificationManager.info(`There is no shop available at pincode: ${pincode}`, "Not found", 3000);
             }
         }).catch(function (error) {
             console.log(error);
+            setLoader(false);
         });
     }, [pincode])
 
@@ -52,6 +59,11 @@ const ClientUi = (props) => {
                         toggleProductsContainer={toggleProductsContainer}
                     />
                 </div>
+            }
+            {
+                loader && (<div className='loaderContainer' >
+                    <Loader />
+                </div>)
             }
             <NotificationContainer />
         </div>

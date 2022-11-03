@@ -18,13 +18,15 @@ import LoginComponent from './components/auth/LoginComponent';
 import SignupComponent from './components/auth/SignupComponent';
 import { saveUserData } from "./redux/user/userActions";
 import { saveAppData } from "./redux/appData/appDataActions"
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import 'react-notifications/lib/notifications.css';
 import { base_url } from './appConstants';
+import Loader from "./components/commonComponent/Loader/Loader";
 function App() {
   const token = localStorage.getItem("token");
+  const loader = useSelector(state => state.appData.loader);
   const navigate = useNavigate();
   const dispatch = useDispatch()
   useEffect(() => {
@@ -32,7 +34,7 @@ function App() {
     axios.get(`${base_url}appData`)
       .then(function (response) {
         const { appData } = response.data.data;
-        dispatch(saveAppData(appData[0]));
+        dispatch(saveAppData({ appData: appData[0] }));
       }).catch(function (error) {
         console.log(error);
       });

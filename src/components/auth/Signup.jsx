@@ -7,6 +7,7 @@ import 'react-notifications/lib/notifications.css';
 import { useDispatch } from "react-redux/es/exports";
 import { saveUserData } from "./../../redux/user/userActions";
 import { useNavigate } from "react-router-dom";
+import Loader from "../commonComponent/Loader/Loader";
 const Signup = (props) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -24,15 +25,33 @@ const Signup = (props) => {
         phone_number: false,
         phone_number_length: false,
         otp: false,
+        invalid_otp: false,
         password: false,
         confirm_password: false,
-        pssword_not_equal: false
+        pssword_not_equal: false,
+        user_already_exist: false
     })
     const [enterOtp, setEnterOtp] = useState(false);
     const [signUpSuccess, setSigUpSuccess] = useState(false);
-    useEffect(() => {
+    const [loader, setLoader] = useState(false);
+    const [seconds, setSeconds] = useState();
+    const [disabledBtn, setDisabledBtn] = useState(false);
 
-    }, [])
+    const counter = () => {
+        setDisabledBtn(true)
+        let s = 30;
+        const tick = () => {
+            if (s > 0) {
+                setTimeout(tick, 1000);
+                s = s - 1;
+                setSeconds(s);
+            } else {
+                setDisabledBtn(false)
+            }
+        }
+        tick()
+    }
+
     const verifyPhoneNumber = () => {
         const { first_name, last_name, phone_number } = state;
         if (first_name === "") {
@@ -48,6 +67,7 @@ const Signup = (props) => {
             setError(prevState => ({ ...prevState, phone_number_length: true }));
             return
         }
+        setLoader(true);
         axios.post(`${base_url}user/adminSignUp`, {
             first_name,
             last_name,
@@ -56,12 +76,22 @@ const Signup = (props) => {
             console.log(response.data.data);
             const { message } = response.data.data;
             setEnterOtp(true);
-            NotificationManager.success(message, 'Success', 3000);
+            setLoader(false);
+            counter()
+            NotificationManager.success(message, 'Success', 7000);
+
         }).catch(function (error) {
             console.log(error.response.data);
-            const { message } = error.response.data;
+            const { message, errorCode } = error.response.data;
             NotificationManager.info(message, 'Info', 3000);
+            if (errorCode === "0013") {
+                setError(prevState => ({ ...prevState, user_already_exist: true }));
+                setTimeout(() => {
+                    setError(prevState => ({ ...prevState, user_already_exist: false }));
+                }, 7000)
 
+            }
+            setLoader(false);
         });
     }
     const onSubmit = () => {
@@ -76,13 +106,14 @@ const Signup = (props) => {
             setError(prevState => ({ ...prevState, confirm_password: true }));
             return;
         } else if (password !== confirm_password) {
-            NotificationManager.info("Password and Confirm Password must be same.", 'Info', 3000);
+            // NotificationManager.info("Password and Confirm Password must be same.", 'Info', 3000);
             setError(prevState => ({ ...prevState, pssword_not_equal: true }));
             setTimeout(() => {
                 setError(prevState => ({ ...prevState, pssword_not_equal: false }));
             }, 3000)
             return;
         }
+        setLoader(true);
         axios.post(`${base_url}auth/setpassword`, {
             password,
             otp,
@@ -93,6 +124,7 @@ const Signup = (props) => {
             console.log(token, user)
             localStorage.setItem("token", token);
             dispatch(saveUserData(user));
+            setLoader(false);
             // NotificationManager.success(message, 'Success', 3000);
             setSigUpSuccess(true);
             setTimeout(() => {
@@ -100,8 +132,18 @@ const Signup = (props) => {
             }, 2000)
         }).catch(function (error) {
             console.log(error.response.data);
-            const { message } = error.response.data;
-            NotificationManager.info(message, 'Info', 3000);
+            setLoader(false);
+            const { message, errorCode } = error.response.data;
+            console.log(error.response.data)
+            if (errorCode === "0001") {
+                setError(prevState => ({ ...prevState, invalid_otp: true }));
+                setTimeout(() => {
+                    setError(prevState => ({ ...prevState, invalid_otp: false }));
+                }, 5000)
+            } else {
+                NotificationManager.info(message, 'Info', 3000);
+            }
+
         });
     }
     const onInputChange = (e) => {
@@ -118,6 +160,7 @@ const Signup = (props) => {
     const login = () => {
         navigate("/login")
     }
+
     return (
         <>
             {
@@ -174,14 +217,24 @@ const Signup = (props) => {
                             {
                                 error.phone_number_length && <div className="errorContainer" >Please enter valid phone number.( आपने फ़ोन नंबर गलत दर्ज किया है। )</div>
                             }
+                            {
+                                error.user_already_exist && <div className="errorContainer" >( आपने पहले ही दिए गए फ़ोन नंबर के साथ एक खाता बना लिया है, कृपया लॉगिन करें। )</div>
+                            }
                         </div>
                         <div className="mb-3 btn-container">
-                            <button
-                                type="submit"
-                                className="btn btn-warning"
-                                onClick={verifyPhoneNumber}
-                                disabled={enterOtp}
-                            >Verify Phone Number</button>
+                            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }} >
+                                <button
+                                    type="submit"
+                                    className="btn btn-warning"
+                                    onClick={verifyPhoneNumber}
+                                    disabled={disabledBtn}
+                                >Verify Phone Number</button>
+                                {
+                                    disabledBtn && <div style={{display:"flex",flexDirection:"row",alignItems:"baseline", color:"#00e676" }} >यदि आपको ओटीपी प्राप्त नहीं हुआ है, तो {seconds} सेकंड के बाद पुनः प्रयास करें।</div>
+                                }
+
+                            </div>
+
                         </div>
                         {
                             enterOtp && (
@@ -197,6 +250,9 @@ const Signup = (props) => {
                                     ></input>
                                     {
                                         error.otp && <div className="errorContainer" >Required.( कृपया ओटीपी दर्ज करें। )</div>
+                                    }
+                                    {
+                                        error.invalid_otp && <div className="errorContainer" >( आपने गलत ओटीपी डाला है। कृपया ओटीपी जांचें और पुन: प्रयास करें। )</div>
                                     }
                                 </div>
                             )
@@ -263,7 +319,13 @@ const Signup = (props) => {
                             }
 
                         </div>
+                        {
+                            loader && (<div className='loaderContainer' >
+                                <Loader />
+                            </div>)
+                        }
                         <NotificationContainer />
+
                     </div>
                 )
             }

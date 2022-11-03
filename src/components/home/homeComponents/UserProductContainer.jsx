@@ -12,7 +12,7 @@ const UserProductContainer = (props) => {
     const [refresh, setRefresh] = useState(true);
     const [clickedProduct, setClickedProduct] = useState(null);
     const [productsArray, setProductsArray] = useState([])
-    const appData = useSelector(state => state.appData);
+    const appData = useSelector(state => state.appData.appData);
     const navigate = useNavigate()
     useEffect(() => {
         const token = localStorage.getItem("token");

@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 const ShopContainer = (props) => {
     const user = useSelector(state => state.user);
     const navigate = useNavigate();
-    const appData = useSelector(state => state.appData);
+    const appData = useSelector(state => state.appData.appData);
     return (
         <div className="shopContainer" >
             {

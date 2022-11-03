@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 const SignupComponent = (props) => {
     const navigate = useNavigate();
-    const appData = useSelector(state => state.appData)
+    const appData = useSelector(state => state.appData.appData)
     const shopIconClicked = () => {
         navigate("/")
     }
